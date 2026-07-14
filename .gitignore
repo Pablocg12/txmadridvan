@@ -1,0 +1,12 @@
+node_modules
+dist
+.env
+.git
+*.zip
+attached_assets
+.local
+.cache
+.upm
+.agents
+node_modules/
+*.zip
