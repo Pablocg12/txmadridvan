@@ -38,7 +38,7 @@ const translations = {
     fleet_s_tag: "Clase Confort",
     booking_badge: "Garantía de Servicio",
     booking_title: "Reserve su traslado con anticipación",
-    booking_desc: "Conozca el precio exacto antes de viajar. Sin tarifas ocultas, sin taxímetros. Disfrute de la tranquilidad de tener su coche esperándole puntualmente.",
+    booking_desc: "Conozca el precio exacto antes de viajar. Disfrute de la tranquilidad de tener su coche esperándole puntualmente.",
     booking_feature_1: "Precio cerrado y garantizado",
     booking_feature_2: "Cancelación gratuita hasta 24h antes",
     booking_feature_3: "Tiempo de espera de cortesía incluido",
