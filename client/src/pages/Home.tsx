@@ -18,9 +18,9 @@ export default function Home() {
         <div className="absolute inset-0 z-0">
           {/* landing page hero dark luxury car city night */}
           <img 
-            src="/images/mercedes-v-real.jpg" 
+            src="/images/portada.jpg" 
             alt="Premium Taxi in Madrid" 
-            className="w-full h-full object-cover object-right"
+            className="w-full h-full object-cover object-center"
           />
           <div className="absolute inset-0 bg-black/60"></div>
         </div>
