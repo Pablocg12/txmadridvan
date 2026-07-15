@@ -14,16 +14,20 @@ export default function Home() {
       <WhatsAppButton />
 
       {/* HERO SECTION */}
-      <section className="relative h-screen flex items-center justify-center overflow-hidden">
-        <div className="absolute inset-0 z-0">
-          {/* landing page hero dark luxury car city night */}
-          <img 
-            src="/images/portada.jpg" 
-            alt="Premium Taxi in Madrid" 
-            className="w-full h-full object-cover object-center"
-          />
-          <div className="absolute inset-0 bg-black/60"></div>
-        </div>
+      <section
+        className="relative flex items-center justify-center overflow-hidden"
+        style={{ minHeight: '100svh' }}
+      >
+        <div
+          className="absolute inset-0 z-0"
+          style={{
+            backgroundImage: 'url(/images/portada.jpg)',
+            backgroundSize: 'cover',
+            backgroundPosition: 'center center',
+            backgroundRepeat: 'no-repeat',
+          }}
+        />
+        <div className="absolute inset-0 z-0 bg-black/60" />
         
         <div className="relative z-10 text-center text-white px-4 max-w-4xl mx-auto mt-20">
           <motion.div
