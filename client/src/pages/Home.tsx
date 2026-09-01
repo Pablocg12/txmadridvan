@@ -22,53 +22,32 @@ export default function Home() {
       <main>
         <section className="relative overflow-visible bg-neutral-950 pt-[4.5rem]">
           <div
-            className="absolute inset-x-0 top-[4.5rem] h-[31rem] bg-cover bg-center bg-no-repeat md:h-[39rem]"
+            className="absolute inset-x-0 top-[4.5rem] h-[24rem] bg-cover bg-center bg-no-repeat md:h-[37rem]"
             style={{ backgroundImage: "url(/images/portada.jpg)" }}
           />
-          <div className="absolute inset-x-0 top-[4.5rem] h-[31rem] bg-gradient-to-r from-black/75 via-black/35 to-black/20 md:h-[39rem]" />
+          <div className="absolute inset-x-0 top-[4.5rem] h-[24rem] bg-gradient-to-r from-black/70 via-black/35 to-black/15 md:h-[37rem]" />
 
-          <div className="relative mx-auto flex min-h-[31rem] max-w-7xl items-start px-5 pb-24 pt-12 sm:px-8 md:min-h-[39rem] md:pb-36 md:pt-20 lg:px-10">
+          <div className="relative mx-auto flex min-h-[24rem] max-w-7xl items-start px-5 pb-20 pt-10 sm:px-8 md:min-h-[37rem] md:pb-36 md:pt-20 lg:px-10">
             <motion.div
               initial={{ opacity: 0, y: 22 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.7 }}
               className="max-w-2xl text-white"
             >
-              <div className="mb-6 flex items-center gap-2 text-xs font-medium tracking-[0.12em] text-white/75">
+              <div className="mb-7 flex items-center gap-2 text-xs font-medium tracking-[0.08em] text-white/75">
                 <span>TX Madrid Van</span>
                 <span className="text-white/50">›</span>
                 <span>Madrid</span>
                 <span className="text-white/50">›</span>
                 <span>{t("hero_badge")}</span>
               </div>
-              <p className="mb-4 text-xs font-semibold uppercase tracking-[0.24em] text-white/80 md:text-sm">
-                {t("hero_badge")}
-              </p>
-              <h1 className="max-w-xl font-sans text-4xl font-bold leading-[1.05] tracking-[-0.03em] text-balance sm:text-5xl md:text-7xl">
+              <h1 className="max-w-xl font-sans text-4xl font-bold leading-[1.08] tracking-[-0.03em] text-balance sm:text-5xl md:text-7xl">
                 {t("hero_title")}
               </h1>
-              <p className="mt-6 max-w-xl text-base leading-7 text-white/85 md:text-lg">
-                {t("hero_desc")}
-              </p>
-              <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-                <a
-                  href="#formulario"
-                  className="inline-flex min-h-12 items-center justify-center rounded-xl bg-primary px-7 text-sm font-bold uppercase tracking-[0.12em] text-white shadow-lg shadow-red-950/25 transition-colors hover:bg-white hover:text-black"
-                >
-                  {t("hero_btn_book")}
-                  <ArrowUpRight className="ml-2 h-4 w-4" />
-                </a>
-                <a
-                  href="#flota"
-                  className="inline-flex min-h-12 items-center justify-center rounded-xl border border-white/55 bg-white/5 px-7 text-sm font-bold uppercase tracking-[0.12em] text-white backdrop-blur-sm transition-colors hover:bg-white hover:text-black"
-                >
-                  {t("hero_btn_fleet")}
-                </a>
-              </div>
             </motion.div>
           </div>
 
-          <div id="formulario" className="relative z-10 mx-auto -mt-20 scroll-mt-24 px-4 pb-16 sm:px-8 md:-mt-32 lg:px-10">
+          <div id="formulario" className="relative z-10 mx-auto -mt-20 scroll-mt-24 px-4 pb-14 sm:px-8 md:-mt-28 lg:px-10">
             <BookingForm />
           </div>
         </section>

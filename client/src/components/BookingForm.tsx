@@ -6,7 +6,7 @@ import { useCreateBooking } from "@/hooks/use-bookings";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
-import { MapPin, Users, Briefcase, Plane, MessageSquare } from "lucide-react";
+import { ChevronDown, MapPin, Minus, Plus, Users, Briefcase, Plane, MessageSquare } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { useLanguage } from "@/hooks/use-language";
 
@@ -103,6 +103,7 @@ export function BookingForm() {
   const { toast } = useToast();
   const createBooking = useCreateBooking();
   const [isSuccess, setIsSuccess] = useState(false);
+  const [showAdditional, setShowAdditional] = useState(false);
 
   const form = useForm<FormData>({
     resolver: zodResolver(formSchema),
@@ -156,7 +157,7 @@ export function BookingForm() {
 
   return (
     <div className="mx-auto max-w-5xl rounded-3xl border border-black/10 bg-white p-5 shadow-[0_24px_70px_rgba(0,0,0,0.18)] sm:p-8 md:p-10">
-      <div className="mb-7 flex flex-col gap-2 border-b border-black/10 pb-6 sm:flex-row sm:items-end sm:justify-between">
+      <div className="mb-7 hidden flex-col gap-2 border-b border-black/10 pb-6 sm:flex-row sm:items-end sm:justify-between md:flex">
         <div>
           <p className="mb-2 text-xs font-bold uppercase tracking-[0.18em] text-primary">{t("booking_badge")}</p>
           <h3 className="font-sans text-2xl font-bold tracking-tight md:text-3xl">{t("form_title")}</h3>
@@ -167,7 +168,7 @@ export function BookingForm() {
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5">
 
         {/* Origen / Destino */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 gap-5 md:grid-cols-2 md:gap-6">
           <div className="space-y-2">
             <Label htmlFor="origen" className="text-sm font-medium">{t("form_origin")}</Label>
             <div className="relative">
@@ -201,7 +202,7 @@ export function BookingForm() {
         </div>
 
         {/* Fecha / Hora */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="grid grid-cols-2 gap-3 md:gap-6">
           <div className="space-y-2">
             <Label htmlFor="fecha" className="text-sm font-medium">{t("form_date")}</Label>
             <div className="relative w-full overflow-hidden">
@@ -245,19 +246,35 @@ export function BookingForm() {
         </div>
 
         {/* Pasajeros / Equipaje */}
-        <div className="grid grid-cols-2 gap-6">
+        <div className="grid grid-cols-2 gap-3 md:gap-6">
           <div className="space-y-2">
             <Label htmlFor="pasajeros" className="text-sm font-medium">{t("form_passengers")}</Label>
             <div className="relative">
-              <Users className="absolute left-3 top-3 h-5 w-5 text-muted-foreground pointer-events-none" />
+              <Users className="pointer-events-none absolute left-3 top-3 h-5 w-5 text-muted-foreground" />
               <Input
                 id="pasajeros"
                 type="number"
                 min="1"
                 max="8"
-                 className="h-12 rounded-xl border-border pl-10 focus-visible:border-primary focus-visible:ring-primary/20"
+                 className="h-12 rounded-xl border-border px-10 text-center focus-visible:border-primary focus-visible:ring-primary/20"
                 {...form.register("pasajeros")}
               />
+               <button
+                 type="button"
+                 aria-label="Reducir pasajeros"
+                 onClick={() => form.setValue("pasajeros", Math.max(1, Number(form.getValues("pasajeros")) - 1), { shouldValidate: true })}
+                 className="absolute left-0 top-0 flex h-12 w-10 items-center justify-center text-muted-foreground transition-colors hover:text-primary"
+               >
+                 <Minus className="h-4 w-4" />
+               </button>
+               <button
+                 type="button"
+                 aria-label="Aumentar pasajeros"
+                 onClick={() => form.setValue("pasajeros", Math.min(8, Number(form.getValues("pasajeros")) + 1), { shouldValidate: true })}
+                 className="absolute right-0 top-0 flex h-12 w-10 items-center justify-center text-muted-foreground transition-colors hover:text-primary"
+               >
+                 <Plus className="h-4 w-4" />
+               </button>
             </div>
             {form.formState.errors.pasajeros && (
               <p className="text-primary text-xs mt-1">{form.formState.errors.pasajeros.message}</p>
@@ -266,14 +283,30 @@ export function BookingForm() {
           <div className="space-y-2">
             <Label htmlFor="equipaje" className="text-sm font-medium">{t("form_luggage")}</Label>
             <div className="relative">
-              <Briefcase className="absolute left-3 top-3 h-5 w-5 text-muted-foreground pointer-events-none" />
+              <Briefcase className="pointer-events-none absolute left-3 top-3 h-5 w-5 text-muted-foreground" />
               <Input
                 id="equipaje"
                 type="number"
                 min="0"
-                 className="h-12 rounded-xl border-border pl-10 focus-visible:border-primary focus-visible:ring-primary/20"
+                 className="h-12 rounded-xl border-border px-10 text-center focus-visible:border-primary focus-visible:ring-primary/20"
                 {...form.register("equipaje")}
               />
+               <button
+                 type="button"
+                 aria-label="Reducir equipaje"
+                 onClick={() => form.setValue("equipaje", Math.max(0, Number(form.getValues("equipaje")) - 1), { shouldValidate: true })}
+                 className="absolute left-0 top-0 flex h-12 w-10 items-center justify-center text-muted-foreground transition-colors hover:text-primary"
+               >
+                 <Minus className="h-4 w-4" />
+               </button>
+               <button
+                 type="button"
+                 aria-label="Aumentar equipaje"
+                 onClick={() => form.setValue("equipaje", Math.min(10, Number(form.getValues("equipaje")) + 1), { shouldValidate: true })}
+                 className="absolute right-0 top-0 flex h-12 w-10 items-center justify-center text-muted-foreground transition-colors hover:text-primary"
+               >
+                 <Plus className="h-4 w-4" />
+               </button>
             </div>
             {form.formState.errors.equipaje && (
               <p className="text-primary text-xs mt-1">{form.formState.errors.equipaje.message}</p>
@@ -281,6 +314,16 @@ export function BookingForm() {
           </div>
         </div>
 
+        <button
+          type="button"
+          onClick={() => setShowAdditional((current) => !current)}
+          className="flex w-full items-center justify-between border-y border-black/10 py-3 text-left text-sm font-medium text-muted-foreground transition-colors hover:text-black"
+        >
+          {t("form_more_options")}
+          <ChevronDown className={`h-4 w-4 transition-transform ${showAdditional ? "rotate-180" : ""}`} />
+        </button>
+
+        {showAdditional && <div className="space-y-5">
         {/* Vuelo / Tren */}
         <div className="space-y-2">
           <Label htmlFor="vuelo" className="text-sm font-medium">{t("form_flight")}</Label>
@@ -325,6 +368,7 @@ export function BookingForm() {
             />
           </div>
         </div>
+        </div>}
 
         <Button
           type="submit"
