@@ -1,266 +1,226 @@
 import { motion } from "framer-motion";
+import { ArrowUpRight, Check, Clock3, CreditCard, Plane, ShieldCheck } from "lucide-react";
+import { BookingForm } from "@/components/BookingForm";
 import { Navbar } from "@/components/Navbar";
 import { WhatsAppButton } from "@/components/WhatsAppButton";
-import { BookingForm } from "@/components/BookingForm";
-import { Shield, Clock, Plane, CreditCard } from "lucide-react";
 import { useLanguage } from "@/hooks/use-language";
+
+const services = [
+  { icon: Plane, title: "service_1_title", description: "service_1_desc" },
+  { icon: Clock3, title: "service_2_title", description: "service_2_desc" },
+  { icon: ShieldCheck, title: "service_3_title", description: "service_3_desc" },
+];
 
 export default function Home() {
   const { t } = useLanguage();
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen overflow-x-hidden bg-white text-black">
       <Navbar />
       <WhatsAppButton />
 
-      {/* HERO SECTION */}
-      <section
-        className="relative flex items-center justify-center overflow-hidden"
-        style={{ minHeight: '100svh' }}
-      >
-        <div
-          className="absolute inset-0 z-0"
-          style={{
-            backgroundImage: 'url(/images/portada.jpg)',
-            backgroundSize: 'cover',
-            backgroundPosition: 'center center',
-            backgroundRepeat: 'no-repeat',
-          }}
-        />
-        <div className="absolute inset-0 z-0 bg-black/60" />
-        
-        <div className="relative z-10 text-center text-white px-4 max-w-4xl mx-auto mt-20">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-          >
-            <span className="uppercase tracking-[0.3em] text-sm md:text-base font-semibold mb-6 block text-white/80">
-              {t("hero_badge")}
-            </span>
-            <h1 className="font-display text-5xl md:text-7xl lg:text-8xl font-bold leading-tight mb-8 text-balance">
-              {t("hero_title")}
-            </h1>
-            <p className="text-lg md:text-xl font-light mb-10 max-w-2xl mx-auto text-white/90">
-              {t("hero_desc")}
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-              <a 
-                href="#formulario" 
-                className="bg-primary hover:bg-white hover:text-black text-white px-10 py-4 uppercase tracking-widest text-sm font-semibold transition-all duration-300 w-full sm:w-auto text-center"
-              >
-                {t("hero_btn_book")}
-              </a>
-              <a 
-                href="#flota" 
-                className="bg-transparent border border-white hover:bg-white/10 text-white px-10 py-4 uppercase tracking-widest text-sm font-semibold transition-all duration-300 w-full sm:w-auto text-center"
-              >
-                {t("hero_btn_fleet")}
-              </a>
-            </div>
-          </motion.div>
-        </div>
-      </section>
+      <main>
+        <section className="relative overflow-visible bg-neutral-950 pt-[4.5rem]">
+          <div
+            className="absolute inset-x-0 top-[4.5rem] h-[31rem] bg-cover bg-center bg-no-repeat md:h-[39rem]"
+            style={{ backgroundImage: "url(/images/portada.jpg)" }}
+          />
+          <div className="absolute inset-x-0 top-[4.5rem] h-[31rem] bg-gradient-to-r from-black/75 via-black/35 to-black/20 md:h-[39rem]" />
 
-      {/* SERVICES SECTION */}
-      <section id="servicios" className="py-24 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="font-display text-4xl font-bold mb-4">{t("services_title")}</h2>
-            <div className="w-20 h-1 bg-primary mx-auto mb-6"></div>
-            <p className="text-muted-foreground max-w-2xl mx-auto text-lg">
-              {t("services_desc")}
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
-            {[
-              {
-                icon: Plane,
-                title: t("service_1_title"),
-                desc: t("service_1_desc")
-              },
-              {
-                icon: Clock,
-                title: t("service_2_title"),
-                desc: t("service_2_desc")
-              },
-              {
-                icon: Shield,
-                title: t("service_3_title"),
-                desc: t("service_3_desc")
-              }
-            ].map((service, idx) => (
-              <motion.div 
-                key={idx}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: idx * 0.2 }}
-                className="text-center group"
-              >
-                <div className="w-20 h-20 mx-auto bg-black text-white group-hover:bg-primary transition-colors flex items-center justify-center mb-6 rounded-none">
-                  <service.icon className="w-10 h-10" />
-                </div>
-                <h3 className="font-display text-2xl font-semibold mb-4">{service.title}</h3>
-                <p className="text-muted-foreground leading-relaxed">
-                  {service.desc}
-                </p>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* FLEET SECTION */}
-      <section id="flota" className="py-24 bg-neutral-50 border-y border-border/50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="font-display text-4xl font-bold mb-4">{t("fleet_title")}</h2>
-            <div className="w-20 h-1 bg-black mx-auto mb-6"></div>
-            <p className="text-muted-foreground max-w-2xl mx-auto text-lg">
-              {t("fleet_desc")}
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto">
-            {/* Fleet Item 1 */}
-            <motion.div 
-              className="bg-white group cursor-pointer shadow-lg shadow-black/5 hover:shadow-xl transition-all duration-300"
-              initial={{ opacity: 0, scale: 0.95 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true }}
+          <div className="relative mx-auto flex min-h-[31rem] max-w-7xl items-start px-5 pb-24 pt-12 sm:px-8 md:min-h-[39rem] md:pb-36 md:pt-20 lg:px-10">
+            <motion.div
+              initial={{ opacity: 0, y: 22 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.7 }}
+              className="max-w-2xl text-white"
             >
-              <div className="h-72 overflow-hidden relative">
-                {/* luxury mercedes v class van */}
-                <img 
-                  src="/images/mercedes-v-real.jpg" 
-                  alt="Mercedes Clase V" 
-                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
-                />
-                <div className="absolute top-4 right-4 bg-black text-white text-xs px-3 py-1 font-semibold uppercase tracking-wider">
-                  {t("fleet_v_tag")}
-                </div>
+              <div className="mb-6 flex items-center gap-2 text-xs font-medium tracking-[0.12em] text-white/75">
+                <span>TX Madrid Van</span>
+                <span className="text-white/50">›</span>
+                <span>Madrid</span>
+                <span className="text-white/50">›</span>
+                <span>{t("hero_badge")}</span>
               </div>
-              <div className="p-8 border-t-4 border-transparent group-hover:border-primary transition-colors">
-                <h3 className="font-display text-2xl font-bold mb-2">{t("fleet_v_title")}</h3>
-                <p className="text-muted-foreground mb-4">{t("fleet_v_desc")}</p>
-                <div className="flex gap-4 text-sm font-semibold text-black uppercase tracking-wider">
-                  <span>{t("fleet_v_pax")}</span>
-                  <span className="text-muted-foreground">•</span>
-                  <span>Premium Van</span>
-                </div>
-              </div>
-            </motion.div>
-
-            {/* Fleet Item 2 */}
-            <motion.div 
-              className="bg-white group cursor-pointer shadow-lg shadow-black/5 hover:shadow-xl transition-all duration-300"
-              initial={{ opacity: 0, scale: 0.95 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.2 }}
-            >
-              <div className="h-72 overflow-hidden relative">
-                {/* luxury sedan for executives */}
-                <img 
-                  src="/images/tesla-s.jpg" 
-                  alt="Berlinas de Lujo" 
-                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
-                />
-                <div className="absolute top-4 right-4 bg-primary text-white text-xs px-3 py-1 font-semibold uppercase tracking-wider">
-                  {t("fleet_s_tag")}
-                </div>
-              </div>
-              <div className="p-8 border-t-4 border-transparent group-hover:border-primary transition-colors">
-                <h3 className="font-display text-2xl font-bold mb-2">{t("fleet_s_title")}</h3>
-                <p className="text-muted-foreground mb-4">{t("fleet_s_desc")}</p>
-                <div className="flex gap-4 text-sm font-semibold text-black uppercase tracking-wider">
-                  <span>{t("fleet_s_pax")}</span>
-                  <span className="text-muted-foreground">•</span>
-                  <span>Business Class</span>
-                </div>
-              </div>
-            </motion.div>
-          </div>
-        </div>
-      </section>
-
-      {/* BOOKING SECTION */}
-      <section id="reservas" className="py-24 bg-black text-white relative scroll-mt-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-            <div>
-              <span className="uppercase tracking-[0.3em] text-primary text-sm font-semibold mb-4 block">
-                {t("booking_badge")}
-              </span>
-              <h2 className="font-display text-4xl md:text-5xl font-bold mb-6">
-                {t("booking_title")}
-              </h2>
-              <p className="text-white/70 text-lg mb-8 leading-relaxed">
-                {t("booking_desc")}
+              <p className="mb-4 text-xs font-semibold uppercase tracking-[0.24em] text-white/80 md:text-sm">
+                {t("hero_badge")}
               </p>
-              
-              <ul className="space-y-4 mb-12">
-                {[
-                  t("booking_feature_1"),
-                  t("booking_feature_2"),
-                  t("booking_feature_3"),
-                  t("booking_feature_4")
-                ].map((item, i) => (
-                  <li key={i} className="flex items-center gap-3">
-                    <div className="w-6 h-6 rounded-full bg-primary/20 text-primary flex items-center justify-center shrink-0">
-                      <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                      </svg>
+              <h1 className="max-w-xl font-sans text-4xl font-bold leading-[1.05] tracking-[-0.03em] text-balance sm:text-5xl md:text-7xl">
+                {t("hero_title")}
+              </h1>
+              <p className="mt-6 max-w-xl text-base leading-7 text-white/85 md:text-lg">
+                {t("hero_desc")}
+              </p>
+              <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+                <a
+                  href="#formulario"
+                  className="inline-flex min-h-12 items-center justify-center rounded-xl bg-primary px-7 text-sm font-bold uppercase tracking-[0.12em] text-white shadow-lg shadow-red-950/25 transition-colors hover:bg-white hover:text-black"
+                >
+                  {t("hero_btn_book")}
+                  <ArrowUpRight className="ml-2 h-4 w-4" />
+                </a>
+                <a
+                  href="#flota"
+                  className="inline-flex min-h-12 items-center justify-center rounded-xl border border-white/55 bg-white/5 px-7 text-sm font-bold uppercase tracking-[0.12em] text-white backdrop-blur-sm transition-colors hover:bg-white hover:text-black"
+                >
+                  {t("hero_btn_fleet")}
+                </a>
+              </div>
+            </motion.div>
+          </div>
+
+          <div id="formulario" className="relative z-10 mx-auto -mt-20 scroll-mt-24 px-4 pb-16 sm:px-8 md:-mt-32 lg:px-10">
+            <BookingForm />
+          </div>
+        </section>
+
+        <section id="servicios" className="bg-white px-5 py-20 sm:px-8 md:py-28 lg:px-10">
+          <div className="mx-auto max-w-7xl">
+            <div className="mb-12 flex flex-col justify-between gap-6 md:mb-16 md:flex-row md:items-end">
+              <div className="max-w-xl">
+                <p className="mb-4 text-xs font-bold uppercase tracking-[0.22em] text-primary">{t("booking_badge")}</p>
+                <h2 className="font-display text-4xl font-bold leading-tight md:text-5xl">{t("services_title")}</h2>
+              </div>
+              <p className="max-w-md text-base leading-7 text-muted-foreground md:text-right">{t("services_desc")}</p>
+            </div>
+
+            <div className="grid gap-4 md:grid-cols-3">
+              {services.map(({ icon: Icon, title, description }, idx) => (
+                <motion.article
+                  key={title}
+                  initial={{ opacity: 0, y: 18 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: "-60px" }}
+                  transition={{ delay: idx * 0.1 }}
+                  className="group rounded-2xl border border-black/10 bg-white p-7 transition-all duration-300 hover:-translate-y-1 hover:border-primary/40 hover:shadow-xl hover:shadow-black/5"
+                >
+                  <div className="mb-12 flex items-start justify-between">
+                    <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-black text-white transition-colors group-hover:bg-primary">
+                      <Icon className="h-5 w-5" />
                     </div>
-                    <span className="font-light">{item}</span>
+                    <span className="font-mono text-xs text-black/35">0{idx + 1}</span>
+                  </div>
+                  <h3 className="mb-3 font-display text-2xl font-bold">{t(title)}</h3>
+                  <p className="text-sm leading-6 text-muted-foreground">{t(description)}</p>
+                </motion.article>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section id="reservas" className="bg-black px-5 py-20 text-white sm:px-8 md:py-28 lg:px-10">
+          <div className="mx-auto grid max-w-7xl gap-12 lg:grid-cols-[1.05fr_.95fr] lg:items-center lg:gap-24">
+            <div>
+              <p className="mb-4 text-xs font-bold uppercase tracking-[0.22em] text-primary">{t("booking_badge")}</p>
+              <h2 className="max-w-xl font-display text-4xl font-bold leading-tight md:text-6xl">{t("booking_title")}</h2>
+              <p className="mt-6 max-w-xl text-base leading-7 text-white/65 md:text-lg">{t("booking_desc")}</p>
+              <ul className="mt-9 grid gap-4 sm:grid-cols-2">
+                {[t("booking_feature_1"), t("booking_feature_2"), t("booking_feature_3"), t("booking_feature_4")].map((item) => (
+                  <li key={item} className="flex items-center gap-3 text-sm text-white/85">
+                    <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-primary/15 text-primary">
+                      <Check className="h-3.5 w-3.5" />
+                    </span>
+                    {item}
                   </li>
                 ))}
               </ul>
-
-              <div className="border-t border-white/20 pt-8 mt-8">
-                <p className="text-sm uppercase tracking-wider text-white/50 mb-4">{t("booking_payments")}</p>
-                <div className="flex gap-4">
-                  {/* Payment Icons Placeholders */}
-                  <div className="bg-white p-2 rounded h-10 w-16 flex items-center justify-center">
-                    <span className="text-blue-600 font-bold text-xs">Stripe</span>
-                  </div>
-                  <div className="bg-white p-2 rounded h-10 w-16 flex items-center justify-center">
-                    <span className="text-blue-800 font-bold text-xs italic">PayPal</span>
-                  </div>
-                  <div className="bg-white p-2 rounded h-10 w-16 flex items-center justify-center">
-                    <CreditCard className="w-6 h-6 text-black" />
-                  </div>
-                </div>
+            </div>
+            <div className="rounded-3xl border border-white/10 bg-white/[.06] p-7 md:p-9">
+              <p className="text-xs font-bold uppercase tracking-[0.18em] text-white/50">{t("booking_payments")}</p>
+              <p className="mt-4 text-2xl font-semibold">{t("booking_trust_title")}</p>
+              <p className="mt-3 text-sm leading-6 text-white/55">{t("booking_trust_desc")}</p>
+              <div className="mt-8 flex gap-3">
+                <div className="flex h-11 w-20 items-center justify-center rounded-lg bg-white text-xs font-bold text-[#635bff]">Stripe</div>
+                <div className="flex h-11 w-20 items-center justify-center rounded-lg bg-white text-xs font-bold italic text-[#003087]">PayPal</div>
+                <div className="flex h-11 w-20 items-center justify-center rounded-lg bg-white text-black"><CreditCard className="h-5 w-5" /></div>
               </div>
             </div>
-            
-            <div id="formulario" className="text-black scroll-mt-24">
-              <BookingForm />
-            </div>
           </div>
-        </div>
-      </section>
+        </section>
 
-      {/* FOOTER */}
-      <footer className="bg-white py-12 border-t border-border">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center gap-6">
-          <div className="flex items-center gap-2">
-            <div className="w-8 h-8 bg-black text-white flex items-center justify-center font-display font-bold text-xl">
-              T
+        <section id="flota" className="bg-neutral-50 px-5 py-20 sm:px-8 md:py-28 lg:px-10">
+          <div className="mx-auto max-w-7xl">
+            <div className="mb-12 max-w-xl">
+              <p className="mb-4 text-xs font-bold uppercase tracking-[0.22em] text-primary">TX Madrid Van</p>
+              <h2 className="font-display text-4xl font-bold leading-tight md:text-5xl">{t("fleet_title")}</h2>
+              <p className="mt-4 max-w-2xl text-base leading-7 text-muted-foreground">{t("fleet_desc")}</p>
             </div>
-            <span className="font-display text-xl font-semibold tracking-wide">
-              TX MADRID<span className="text-primary"> VAN</span>
-            </span>
+            <div className="grid gap-6 md:grid-cols-2">
+              <FleetCard
+                image="/images/mercedes-v-real.jpg"
+                alt="Mercedes Clase V"
+                tag={t("fleet_v_tag")}
+                title={t("fleet_v_title")}
+                description={t("fleet_v_desc")}
+                capacity={t("fleet_v_pax")}
+              />
+              <FleetCard
+                image="/images/tesla-s.jpg"
+                alt="Berlinas de lujo"
+                tag={t("fleet_s_tag")}
+                title={t("fleet_s_title")}
+                description={t("fleet_s_desc")}
+                capacity={t("fleet_s_pax")}
+                accent
+              />
+            </div>
           </div>
-          
-          <div className="text-muted-foreground text-sm text-center md:text-right">
+        </section>
+      </main>
+
+      <footer className="border-t border-black/10 bg-white px-5 py-10 sm:px-8 lg:px-10">
+        <div className="mx-auto flex max-w-7xl flex-col gap-6 md:flex-row md:items-center md:justify-between">
+          <div className="flex items-center gap-3">
+            <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-black font-display text-xl font-bold text-white">T</div>
+            <span className="font-display text-xl font-semibold tracking-wide">TX MADRID<span className="text-primary"> VAN</span></span>
+          </div>
+          <div className="text-sm leading-6 text-muted-foreground md:text-right">
             <p>&copy; {new Date().getFullYear()} TX MADRID VAN. {t("footer_rights")}</p>
-            <p className="mt-1">{t("footer_official")}</p>
+            <p>{t("footer_official")}</p>
           </div>
         </div>
       </footer>
     </div>
+  );
+}
+
+function FleetCard({
+  image,
+  alt,
+  tag,
+  title,
+  description,
+  capacity,
+  accent = false,
+}: {
+  image: string;
+  alt: string;
+  tag: string;
+  title: string;
+  description: string;
+  capacity: string;
+  accent?: boolean;
+}) {
+  return (
+    <motion.article
+      initial={{ opacity: 0, y: 18 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-60px" }}
+      className="group overflow-hidden rounded-2xl border border-black/10 bg-white shadow-sm transition-shadow duration-300 hover:shadow-2xl hover:shadow-black/10"
+    >
+      <div className="relative h-72 overflow-hidden md:h-80">
+        <img src={image} alt={alt} className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105" />
+        <span className={`absolute left-5 top-5 rounded-full px-3 py-1.5 text-xs font-bold uppercase tracking-[0.12em] text-white ${accent ? "bg-primary" : "bg-black"}`}>
+          {tag}
+        </span>
+      </div>
+      <div className="p-7 md:p-8">
+        <div className="flex items-start justify-between gap-4">
+          <h3 className="font-display text-2xl font-bold">{title}</h3>
+          <ArrowUpRight className="mt-1 h-5 w-5 text-black/35 transition-colors group-hover:text-primary" />
+        </div>
+        <p className="mt-3 max-w-lg text-sm leading-6 text-muted-foreground">{description}</p>
+        <p className="mt-6 text-xs font-bold uppercase tracking-[0.15em] text-black">{capacity}</p>
+      </div>
+    </motion.article>
   );
 }

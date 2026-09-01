@@ -76,7 +76,7 @@ const buildWhatsAppUrl = (data: FormData) => {
   return `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(lines.join("\n"))}`;
 };
 
-const selectClass = "w-full h-12 px-3 rounded-none border border-border bg-white text-sm focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary appearance-none";
+const selectClass = "w-full h-12 rounded-xl border border-border bg-white px-3 text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary appearance-none";
 
 const dateInputStyle: React.CSSProperties = {
   width: "100%",
@@ -85,7 +85,7 @@ const dateInputStyle: React.CSSProperties = {
   paddingLeft: "2.5rem",
   paddingRight: "0.75rem",
   border: "1px solid hsl(var(--border))",
-  borderRadius: 0,
+   borderRadius: "0.75rem",
   backgroundColor: "white",
   fontSize: "0.875rem",
   outline: "none",
@@ -155,24 +155,27 @@ export function BookingForm() {
   }
 
   return (
-    <div className="bg-white p-8 md:p-10 border border-border shadow-2xl shadow-black/5">
-      <div className="mb-8">
-        <h3 className="font-display text-3xl font-semibold mb-2">{t("form_title")}</h3>
-        <p className="text-muted-foreground text-sm">{t("form_desc")}</p>
+    <div className="mx-auto max-w-5xl rounded-3xl border border-black/10 bg-white p-5 shadow-[0_24px_70px_rgba(0,0,0,0.18)] sm:p-8 md:p-10">
+      <div className="mb-7 flex flex-col gap-2 border-b border-black/10 pb-6 sm:flex-row sm:items-end sm:justify-between">
+        <div>
+          <p className="mb-2 text-xs font-bold uppercase tracking-[0.18em] text-primary">{t("booking_badge")}</p>
+          <h3 className="font-sans text-2xl font-bold tracking-tight md:text-3xl">{t("form_title")}</h3>
+        </div>
+        <p className="max-w-sm text-sm leading-6 text-muted-foreground sm:text-right">{t("form_desc")}</p>
       </div>
 
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5">
 
         {/* Origen / Destino */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div className="space-y-2">
-            <Label htmlFor="origen" className="text-xs uppercase tracking-wider font-semibold">{t("form_origin")}</Label>
+            <Label htmlFor="origen" className="text-sm font-medium">{t("form_origin")}</Label>
             <div className="relative">
               <MapPin className="absolute left-3 top-3 h-5 w-5 text-muted-foreground pointer-events-none" />
               <Input
                 id="origen"
                 placeholder={t("form_origin_placeholder")}
-                className="pl-10 h-12 rounded-none border-border focus-visible:ring-primary focus-visible:border-primary"
+                 className="h-12 rounded-xl border-border pl-10 focus-visible:border-primary focus-visible:ring-primary/20"
                 {...form.register("origen")}
               />
             </div>
@@ -181,13 +184,13 @@ export function BookingForm() {
             )}
           </div>
           <div className="space-y-2">
-            <Label htmlFor="destino" className="text-xs uppercase tracking-wider font-semibold">{t("form_destination")}</Label>
+            <Label htmlFor="destino" className="text-sm font-medium">{t("form_destination")}</Label>
             <div className="relative">
               <MapPin className="absolute left-3 top-3 h-5 w-5 text-muted-foreground pointer-events-none" />
               <Input
                 id="destino"
                 placeholder={t("form_destination_placeholder")}
-                className="pl-10 h-12 rounded-none border-border focus-visible:ring-primary focus-visible:border-primary"
+                 className="h-12 rounded-xl border-border pl-10 focus-visible:border-primary focus-visible:ring-primary/20"
                 {...form.register("destino")}
               />
             </div>
@@ -200,7 +203,7 @@ export function BookingForm() {
         {/* Fecha / Hora */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div className="space-y-2">
-            <Label htmlFor="fecha" className="text-xs uppercase tracking-wider font-semibold">{t("form_date")}</Label>
+            <Label htmlFor="fecha" className="text-sm font-medium">{t("form_date")}</Label>
             <div className="relative w-full overflow-hidden">
               <svg
                 className="absolute left-3 top-3.5 h-5 w-5 text-muted-foreground pointer-events-none z-10"
@@ -223,7 +226,7 @@ export function BookingForm() {
             )}
           </div>
           <div className="space-y-2">
-            <Label htmlFor="hora" className="text-xs uppercase tracking-wider font-semibold">{t("form_time")}</Label>
+            <Label htmlFor="hora" className="text-sm font-medium">{t("form_time")}</Label>
             <select
               id="hora"
               className={selectClass}
@@ -244,7 +247,7 @@ export function BookingForm() {
         {/* Pasajeros / Equipaje */}
         <div className="grid grid-cols-2 gap-6">
           <div className="space-y-2">
-            <Label htmlFor="pasajeros" className="text-xs uppercase tracking-wider font-semibold">{t("form_passengers")}</Label>
+            <Label htmlFor="pasajeros" className="text-sm font-medium">{t("form_passengers")}</Label>
             <div className="relative">
               <Users className="absolute left-3 top-3 h-5 w-5 text-muted-foreground pointer-events-none" />
               <Input
@@ -252,7 +255,7 @@ export function BookingForm() {
                 type="number"
                 min="1"
                 max="8"
-                className="pl-10 h-12 rounded-none border-border focus-visible:ring-primary focus-visible:border-primary"
+                 className="h-12 rounded-xl border-border pl-10 focus-visible:border-primary focus-visible:ring-primary/20"
                 {...form.register("pasajeros")}
               />
             </div>
@@ -261,14 +264,14 @@ export function BookingForm() {
             )}
           </div>
           <div className="space-y-2">
-            <Label htmlFor="equipaje" className="text-xs uppercase tracking-wider font-semibold">{t("form_luggage")}</Label>
+            <Label htmlFor="equipaje" className="text-sm font-medium">{t("form_luggage")}</Label>
             <div className="relative">
               <Briefcase className="absolute left-3 top-3 h-5 w-5 text-muted-foreground pointer-events-none" />
               <Input
                 id="equipaje"
                 type="number"
                 min="0"
-                className="pl-10 h-12 rounded-none border-border focus-visible:ring-primary focus-visible:border-primary"
+                 className="h-12 rounded-xl border-border pl-10 focus-visible:border-primary focus-visible:ring-primary/20"
                 {...form.register("equipaje")}
               />
             </div>
@@ -280,13 +283,13 @@ export function BookingForm() {
 
         {/* Vuelo / Tren */}
         <div className="space-y-2">
-          <Label htmlFor="vuelo" className="text-xs uppercase tracking-wider font-semibold">{t("form_flight")}</Label>
+          <Label htmlFor="vuelo" className="text-sm font-medium">{t("form_flight")}</Label>
           <div className="relative">
             <Plane className="absolute left-3 top-3 h-5 w-5 text-muted-foreground pointer-events-none" />
             <Input
               id="vuelo"
               placeholder={t("form_flight_placeholder")}
-              className="pl-10 h-12 rounded-none border-border focus-visible:ring-primary focus-visible:border-primary"
+              className="h-12 rounded-xl border-border pl-10 focus-visible:border-primary focus-visible:ring-primary/20"
               {...form.register("vuelo")}
             />
           </div>
@@ -294,7 +297,7 @@ export function BookingForm() {
 
         {/* Accesorios para niños */}
         <div className="space-y-2">
-          <Label htmlFor="extras" className="text-xs uppercase tracking-wider font-semibold">{t("form_extras")}</Label>
+          <Label htmlFor="extras" className="text-sm font-medium">{t("form_extras")}</Label>
           <select
             id="extras"
             className={selectClass}
@@ -309,14 +312,14 @@ export function BookingForm() {
 
         {/* Comentarios */}
         <div className="space-y-2">
-          <Label htmlFor="comentarios" className="text-xs uppercase tracking-wider font-semibold">{t("form_comments")}</Label>
+          <Label htmlFor="comentarios" className="text-sm font-medium">{t("form_comments")}</Label>
           <div className="relative">
             <MessageSquare className="absolute left-3 top-3 h-5 w-5 text-muted-foreground pointer-events-none" />
             <textarea
               id="comentarios"
               rows={3}
               placeholder={t("form_comments_placeholder")}
-              className="w-full box-border pl-10 pt-2.5 pr-3 pb-2.5 rounded-none border border-border bg-white text-sm resize-none focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary font-[inherit]"
+              className="box-border w-full resize-none rounded-xl border border-border bg-white pb-2.5 pl-10 pr-3 pt-2.5 text-sm font-[inherit] focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20"
               style={{ margin: 0, display: "block" }}
               {...form.register("comentarios")}
             />
@@ -326,7 +329,7 @@ export function BookingForm() {
         <Button
           type="submit"
           data-testid="button-submit-booking"
-          className="w-full h-14 text-base tracking-widest uppercase rounded-none bg-black text-white hover:bg-primary transition-all duration-300"
+           className="h-14 w-full rounded-xl bg-black text-base uppercase tracking-[0.12em] text-white transition-all duration-300 hover:bg-primary"
           disabled={form.formState.isSubmitting}
         >
           {t("form_submit")}
