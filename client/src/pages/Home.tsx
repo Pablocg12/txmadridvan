@@ -32,9 +32,9 @@ export default function Home() {
               initial={{ opacity: 0, y: 22 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.7 }}
-              className="max-w-2xl text-white"
+              className="mx-auto max-w-2xl text-center text-white"
             >
-              <h1 className="max-w-xl font-sans text-4xl font-bold leading-[1.08] tracking-[-0.03em] text-balance sm:text-5xl md:text-7xl">
+              <h1 className="mx-auto max-w-xl font-sans text-4xl font-bold leading-[1.08] tracking-[-0.03em] text-balance sm:text-5xl md:text-7xl">
                 {t("hero_title")}
               </h1>
             </motion.div>

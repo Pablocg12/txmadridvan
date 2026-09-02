@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -98,12 +98,65 @@ const dateInputStyle: React.CSSProperties = {
   color: "inherit",
 };
 
+type PlaceResult = {
+  formatted_address?: string;
+  name?: string;
+};
+
+type AutocompleteInstance = {
+  getPlace: () => PlaceResult;
+  addListener: (eventName: string, handler: () => void) => { remove: () => void };
+};
+
+type GooglePlacesApi = {
+  maps: {
+    places: {
+      Autocomplete: new (
+        input: HTMLInputElement,
+        options: Record<string, unknown>,
+      ) => AutocompleteInstance;
+    };
+  };
+};
+
+type GoogleWindow = Window & { google?: GooglePlacesApi };
+
+let googlePlacesLoader: Promise<void> | null = null;
+
+function loadGooglePlaces(apiKey: string) {
+  const google = (window as GoogleWindow).google;
+  if (google?.maps?.places) return Promise.resolve();
+  if (googlePlacesLoader) return googlePlacesLoader;
+
+  googlePlacesLoader = new Promise<void>((resolve, reject) => {
+    const existingScript = document.querySelector<HTMLScriptElement>("script[data-google-places]");
+    if (existingScript) {
+      existingScript.addEventListener("load", () => resolve(), { once: true });
+      existingScript.addEventListener("error", () => reject(new Error("Google Places could not be loaded.")), { once: true });
+      return;
+    }
+
+    const script = document.createElement("script");
+    script.dataset.googlePlaces = "true";
+    script.src = `https://maps.googleapis.com/maps/api/js?key=${encodeURIComponent(apiKey)}&libraries=places&loading=async`;
+    script.async = true;
+    script.defer = true;
+    script.onload = () => resolve();
+    script.onerror = () => reject(new Error("Google Places could not be loaded."));
+    document.head.appendChild(script);
+  });
+
+  return googlePlacesLoader;
+}
+
 export function BookingForm() {
   const { t } = useLanguage();
   const { toast } = useToast();
   const createBooking = useCreateBooking();
   const [isSuccess, setIsSuccess] = useState(false);
   const [showAdditional, setShowAdditional] = useState(false);
+  const originInputRef = useRef<HTMLInputElement | null>(null);
+  const destinationInputRef = useRef<HTMLInputElement | null>(null);
 
   const form = useForm<FormData>({
     resolver: zodResolver(formSchema),
@@ -119,6 +172,57 @@ export function BookingForm() {
       comentarios: "",
     },
   });
+
+  useEffect(() => {
+    let cancelled = false;
+    const listeners: Array<{ remove: () => void }> = [];
+
+    const setupAutocomplete = async () => {
+      try {
+        const response = await fetch("/api/google-maps/config", { credentials: "same-origin" });
+        if (!response.ok) return;
+
+        const { apiKey } = (await response.json()) as { apiKey?: string };
+        if (!apiKey || cancelled) return;
+
+        await loadGooglePlaces(apiKey);
+        const google = (window as GoogleWindow).google;
+        if (cancelled || !google?.maps?.places) return;
+
+        const options = {
+          fields: ["formatted_address", "name"],
+          types: ["address"],
+          componentRestrictions: { country: "es" },
+        };
+
+        const setPlaceValue = (field: "origen" | "destino", autocomplete: AutocompleteInstance) => {
+          const place = autocomplete.getPlace();
+          const value = place.formatted_address || place.name;
+          if (value) {
+            form.setValue(field, value, { shouldDirty: true, shouldValidate: true });
+          }
+        };
+
+        if (originInputRef.current) {
+          const autocomplete = new google.maps.places.Autocomplete(originInputRef.current, options);
+          listeners.push(autocomplete.addListener("place_changed", () => setPlaceValue("origen", autocomplete)));
+        }
+
+        if (destinationInputRef.current) {
+          const autocomplete = new google.maps.places.Autocomplete(destinationInputRef.current, options);
+          listeners.push(autocomplete.addListener("place_changed", () => setPlaceValue("destino", autocomplete)));
+        }
+      } catch (error) {
+        console.warn("Google Places autocomplete unavailable.", error);
+      }
+    };
+
+    setupAutocomplete();
+    return () => {
+      cancelled = true;
+      listeners.forEach((listener) => listener.remove());
+    };
+  }, [form]);
 
   const onSubmit = (data: FormData) => {
     const whatsappUrl = buildWhatsAppUrl(data);
@@ -176,8 +280,12 @@ export function BookingForm() {
               <Input
                 id="origen"
                 placeholder={t("form_origin_placeholder")}
-                 className="h-12 rounded-xl border-border pl-10 focus-visible:border-primary focus-visible:ring-primary/20"
+                className="h-12 rounded-xl border-border pl-10 focus-visible:border-primary focus-visible:ring-primary/20"
                 {...form.register("origen")}
+                ref={(element) => {
+                  originInputRef.current = element;
+                  form.register("origen").ref(element);
+                }}
               />
             </div>
             {form.formState.errors.origen && (
@@ -191,8 +299,12 @@ export function BookingForm() {
               <Input
                 id="destino"
                 placeholder={t("form_destination_placeholder")}
-                 className="h-12 rounded-xl border-border pl-10 focus-visible:border-primary focus-visible:ring-primary/20"
+                className="h-12 rounded-xl border-border pl-10 focus-visible:border-primary focus-visible:ring-primary/20"
                 {...form.register("destino")}
+                ref={(element) => {
+                  destinationInputRef.current = element;
+                  form.register("destino").ref(element);
+                }}
               />
             </div>
             {form.formState.errors.destino && (

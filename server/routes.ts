@@ -35,5 +35,16 @@ export async function registerRoutes(
     }
   });
 
+  app.get("/api/google-maps/config", (_req, res) => {
+    const apiKey = process.env.GOOGLE_PLACES_API_KEY;
+
+    if (!apiKey) {
+      return res.status(503).json({ message: "Google Places is not configured." });
+    }
+
+    res.setHeader("Cache-Control", "no-store");
+    return res.type("application/json").send(JSON.stringify({ apiKey }));
+  });
+
   return httpServer;
 }
