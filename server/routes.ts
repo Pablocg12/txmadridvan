@@ -6,7 +6,7 @@ import { z } from "zod";
 
 export async function registerRoutes(
   httpServer: Server,
-  app: Express
+  app: Express,
 ): Promise<Server> {
   app.get(api.bookings.list.path, async (req, res) => {
     const bookings = await storage.getBookings();
@@ -15,7 +15,7 @@ export async function registerRoutes(
 
   app.post(api.bookings.create.path, async (req, res) => {
     try {
-      // Coerce inputs if needed, though they are mostly text and integers. 
+      // Coerce inputs if needed, though they are mostly text and integers.
       // We will parse standard body directly first
       const input = api.bookings.create.input.parse({
         ...req.body,
@@ -28,7 +28,7 @@ export async function registerRoutes(
       if (err instanceof z.ZodError) {
         return res.status(400).json({
           message: err.errors[0].message,
-          field: err.errors[0].path.join('.'),
+          field: err.errors[0].path.join("."),
         });
       }
       throw err;
@@ -39,7 +39,12 @@ export async function registerRoutes(
     const apiKey = process.env.GOOGLE_PLACES_API_KEY;
 
     if (!apiKey) {
-      return res.status(503).json({ message: "Google Places is not configured." });
+      return res
+        .status(503)
+        .json({
+          message:
+            "GOOGLE_MAPS_API_KEY no está configurada en los Secrets de Replit",
+        });
     }
 
     res.setHeader("Cache-Control", "no-store");
