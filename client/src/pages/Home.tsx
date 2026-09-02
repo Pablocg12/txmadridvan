@@ -34,13 +34,6 @@ export default function Home() {
               transition={{ duration: 0.7 }}
               className="max-w-2xl text-white"
             >
-              <div className="mb-7 flex items-center gap-2 text-xs font-medium tracking-[0.08em] text-white/75">
-                <span>TX Madrid Van</span>
-                <span className="text-white/50">›</span>
-                <span>Madrid</span>
-                <span className="text-white/50">›</span>
-                <span>{t("hero_badge")}</span>
-              </div>
               <h1 className="max-w-xl font-sans text-4xl font-bold leading-[1.08] tracking-[-0.03em] text-balance sm:text-5xl md:text-7xl">
                 {t("hero_title")}
               </h1>
