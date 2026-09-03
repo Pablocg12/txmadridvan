@@ -1,8 +1,5 @@
 {
   "version": 2,
   "outputDirectory": "dist/public",
-  "rewrites": [
-    { "source": "/api/(.*)", "destination": "/api/index.ts" }
-  ]
+  "rewrites": [{ "source": "/api/(.*)", "destination": "/api/index" }]
 }
- 
